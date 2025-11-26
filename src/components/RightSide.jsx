@@ -1,0 +1,10 @@
+const RightSide = () => {
+  return (
+    <div className="bg-amber-100 flex justify-center w-1/2 items-center h-screen">
+      <div>4 Tomatos</div>
+      <div>Tasks</div>
+    </div>
+  );
+};
+
+export default RightSide;
