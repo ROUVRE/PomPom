@@ -1,12 +1,18 @@
 import { useRef, useState, useEffect } from "react";
+import useNativeNotification from "../hooks/useNativeNotification";
 
 const Timer = () => {
+  const { triggerNotification } = useNativeNotification();
+
+  // Values in seconds
+  // CHANGE THESE SECONDS FOR DEBUGGING PURPOSE DONT FORGET TO CHANGE TO DEFAULT VALUES!!!!!!
   const SESSION_PRESETS = {
-    focus: 60,
-    shortBreak: 3,
-    longBreak: 10,
+    focus: 1500, // DEFAULT: 1500 (25 mins)
+    shortBreak: 300, // DEFAULT: 300 (5 mins)
+    longBreak: 900, // DEFAULT: 900 (15 mins)
   };
 
+  const isProcessingRef = useRef(false);
   const [seconds, setSeconds] = useState(SESSION_PRESETS.focus);
   const [isRunning, setIsRunning] = useState(false);
   const [sessionType, setSessionType] = useState("focus");
@@ -36,13 +42,9 @@ const Timer = () => {
 
   const startTimer = () => {
     if (intervalRef.current !== null || seconds <= 0) return;
-
     setIsRunning(true);
 
     intervalRef.current = setInterval(() => {
-      console.log(
-        "Ongoing session: " + sessionType + ", cycle count: " + focusCount
-      );
       setSeconds((prevSeconds) => {
         if (prevSeconds <= 1) {
           stopTimer();
@@ -60,22 +62,43 @@ const Timer = () => {
   };
 
   const handleSessionComplete = () => {
+    if (isProcessingRef.current) return;
+    isProcessingRef.current = true;
+
     const currentType = sessionTypeRef.current;
+    const timestamp = Date.now();
 
     if (currentType === "focus") {
       const nextCount = focusCountRef.current + 1;
       setFocusCount(nextCount);
 
       if (nextCount % 4 === 0) {
+        triggerNotification("Time for a Long Break!", {
+          body: "Great job! 4 sessions done.",
+          tag: `long-break-${timestamp}`,
+          renotify: true,
+        });
         updateTimerTo("longBreak");
       } else {
+        triggerNotification("Focus Session Complete", {
+          body: "Time for a short break.",
+          tag: `short-break-${timestamp}`,
+          renotify: true,
+        });
         updateTimerTo("shortBreak");
       }
-    } else if (currentType === "shortBreak" || currentType === "longBreak") {
+    } else {
+      triggerNotification("Break is over!", {
+        body: "Ready to get back to work?",
+        tag: `back-to-work-${timestamp}`,
+        renotify: true,
+      });
       updateTimerTo("focus");
     }
 
-    // startTimer();
+    setTimeout(() => {
+      isProcessingRef.current = false;
+    }, 1000);
   };
 
   const resetFocusCount = () => {
@@ -106,11 +129,6 @@ const Timer = () => {
       <div className="m-6 text-6xl text-center text-amber-50">
         {formatTime(seconds)}
       </div>
-
-      {/* <p className="text-center text-xl text-gray-300 mb-4">
-        Current Session: **{sessionType.toUpperCase()}** | Completed Cycles: **
-        {focusCount}**
-      </p> */}
 
       <div className="text-center">
         {isRunning === false ? (
@@ -146,19 +164,19 @@ const Timer = () => {
         <div>
           <button
             onClick={() => setTimerTo("focus")}
-            className="m-1.5 pl-3 pr-3 outline-1 hover:cursor-pointer bg-lime-50"
+            className="m-1.5 pl-3 pr-3 bg-lime-50"
           >
             Focus
           </button>
           <button
             onClick={() => setTimerTo("shortBreak")}
-            className="m-1.5 pl-3 pr-3 outline-1 hover:cursor-pointer bg-green-200"
+            className="m-1.5 pl-3 pr-3 bg-green-200"
           >
             Short Break
           </button>
           <button
             onClick={() => setTimerTo("longBreak")}
-            className="m-1.5 pl-3 pr-3 outline-1 hover:cursor-pointer bg-sky-300"
+            className="m-1.5 pl-3 pr-3 bg-sky-300"
           >
             Long Break
           </button>
