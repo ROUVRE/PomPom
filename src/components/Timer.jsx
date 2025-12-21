@@ -1,15 +1,22 @@
 import { useRef, useState, useEffect } from "react";
 import useNativeNotification from "../hooks/useNativeNotification";
+import digitalAlarm from "/sounds/digitalAlarm.ogg";
+import eggTimer from "/sounds/eggTimer.ogg";
 
 const Timer = () => {
-  const { triggerNotification } = useNativeNotification();
+  const { triggerNotification, requestPermission } = useNativeNotification();
+
+  const SOUNDS = {
+    digitalAlarm,
+    eggTimer,
+  };
 
   // Values in seconds
   // CHANGE THESE SECONDS FOR DEBUGGING PURPOSE DONT FORGET TO CHANGE TO DEFAULT VALUES!!!!!!
   const SESSION_PRESETS = {
-    focus: 1500, // DEFAULT: 1500 (25 mins)
-    shortBreak: 300, // DEFAULT: 300 (5 mins)
-    longBreak: 900, // DEFAULT: 900 (15 mins)
+    focus: 5, // DEFAULT: 1500 (25 mins)
+    shortBreak: 3, // DEFAULT: 300 (5 mins)
+    longBreak: 9, // DEFAULT: 900 (15 mins)
   };
 
   const isProcessingRef = useRef(false);
@@ -42,6 +49,7 @@ const Timer = () => {
 
   const startTimer = () => {
     if (intervalRef.current !== null || seconds <= 0) return;
+    requestPermission();
     setIsRunning(true);
 
     intervalRef.current = setInterval(() => {
@@ -73,26 +81,38 @@ const Timer = () => {
       setFocusCount(nextCount);
 
       if (nextCount % 4 === 0) {
-        triggerNotification("Time for a Long Break!", {
-          body: "Great job! 4 sessions done.",
-          tag: `long-break-${timestamp}`,
-          renotify: true,
-        });
+        triggerNotification(
+          "Time for a Long Break!",
+          {
+            body: "Great job! 4 sessions done.",
+            tag: `long-break-${timestamp}`,
+            renotify: true,
+          },
+          SOUNDS.digitalAlarm
+        );
         updateTimerTo("longBreak");
       } else {
-        triggerNotification("Focus Session Complete", {
-          body: "Time for a short break.",
-          tag: `short-break-${timestamp}`,
-          renotify: true,
-        });
+        triggerNotification(
+          "Focus Session Complete",
+          {
+            body: "Time for a short break.",
+            tag: `short-break-${timestamp}`,
+            renotify: true,
+          },
+          SOUNDS.digitalAlarm
+        );
         updateTimerTo("shortBreak");
       }
     } else {
-      triggerNotification("Break is over!", {
-        body: "Ready to get back to work?",
-        tag: `back-to-work-${timestamp}`,
-        renotify: true,
-      });
+      triggerNotification(
+        "Break is over!",
+        {
+          body: "Ready to get back to work?",
+          tag: `back-to-work-${timestamp}`,
+          renotify: true,
+        },
+        SOUNDS.digitalAlarm
+      );
       updateTimerTo("focus");
     }
 
