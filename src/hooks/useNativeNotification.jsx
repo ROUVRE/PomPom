@@ -12,7 +12,7 @@ const useNativeNotification = () => {
   const triggerNotification = useCallback(
     (title, options = {}, soundUrl = null) => {
       if (!("Notification" in window) || Notification.permission !== "granted")
-        return;
+        return null;
 
       if (soundUrl) {
         new Audio(soundUrl).play().catch(() => {});
@@ -28,6 +28,11 @@ const useNativeNotification = () => {
         window.focus();
         notification.close();
       };
+
+      setTimeout(() => {
+        notification.close();
+      }, 5000);
+      return notification;
     },
     []
   );

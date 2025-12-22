@@ -6,6 +6,7 @@ import eggTimer from "/sounds/eggTimer.ogg";
 const Timer = () => {
   const { triggerNotification, requestPermission } = useNativeNotification();
 
+  // TODO: add option to change alarm sound
   const SOUNDS = {
     digitalAlarm,
     eggTimer,
@@ -14,12 +15,13 @@ const Timer = () => {
   // Values in seconds
   // CHANGE THESE SECONDS FOR DEBUGGING PURPOSE DONT FORGET TO CHANGE TO DEFAULT VALUES!!!!!!
   const SESSION_PRESETS = {
-    focus: 1500, // DEFAULT: 1500 (25 mins)
-    shortBreak: 300, // DEFAULT: 300 (5 mins)
-    longBreak: 900, // DEFAULT: 900 (15 mins)
+    focus: 5, // DEFAULT: 1500 (25 mins)
+    shortBreak: 3, // DEFAULT: 300 (5 mins)
+    longBreak: 10, // DEFAULT: 900 (15 mins)
   };
 
   const isProcessingRef = useRef(false);
+  const [timestamp, setTimestamp] = useState(() => Date.now());
   const [seconds, setSeconds] = useState(SESSION_PRESETS.focus);
   const [isRunning, setIsRunning] = useState(false);
   const [sessionType, setSessionType] = useState("focus");
@@ -39,6 +41,14 @@ const Timer = () => {
 
   useEffect(() => {
     return () => clearInterval(intervalRef.current);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimestamp(Date.now());
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const stopTimer = () => {
@@ -74,7 +84,6 @@ const Timer = () => {
     isProcessingRef.current = true;
 
     const currentType = sessionTypeRef.current;
-    const timestamp = Date.now();
 
     if (currentType === "focus") {
       const nextCount = focusCountRef.current + 1;
