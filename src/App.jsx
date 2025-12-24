@@ -1,10 +1,11 @@
+import Footer from "./components/Footer";
 import Timer from "./components/Timer";
 
 function App() {
   return (
-    <div>
+    <>
       <Timer />
-    </div>
+    </>
   );
 }
 
