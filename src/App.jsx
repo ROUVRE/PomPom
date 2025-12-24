@@ -156,7 +156,7 @@ function App() {
       triggerNotification(
         "Break is over!",
         {
-          body: "Ready to get back to work?",
+          body: "Let's get back to work",
           tag: `back-to-work-${timestamp}`,
           renotify: true,
         },
@@ -306,8 +306,8 @@ function App() {
               <div className="grid grid-cols-3 gap-4">
                 {[
                   { label: "Pomodoro", key: "pomodoro" },
-                  { label: "Short", key: "shortBreak" },
-                  { label: "Long", key: "longBreak" },
+                  { label: "Short Break", key: "shortBreak" },
+                  { label: "Long Break", key: "longBreak" },
                 ].map((item) => (
                   <div key={item.key} className="flex flex-col gap-2">
                     <label className="text-xs text-gray-500 font-medium">
@@ -348,8 +348,10 @@ function App() {
                 ))}
               </div>
             </div>
-
-            <hr className="border-gray-100" />
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Applying a new time setting will reset the current timer to the
+              new duration.
+            </p>
 
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">
@@ -364,6 +366,10 @@ function App() {
                 <option value="eggTimer">Egg Timer</option>
               </select>
             </div>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              New alarm sound will be applied on the next timer start after
+              pressing Save & Apply.
+            </p>
 
             <div className="pt-4">
               <button
