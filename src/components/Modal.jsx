@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 const Modal = ({ isOpen, onClose, title, children }) => {
-  // Prevent scrolling when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -17,15 +16,12 @@ const Modal = ({ isOpen, onClose, title, children }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-      {/* Backdrop with Blur */}
       <div
         className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
-      {/* Modal Card */}
       <div className="relative w-full max-w-md transform overflow-hidden rounded-4xl bg-white p-8 shadow-2xl transition-all border border-white/20 animate-in fade-in zoom-in duration-300">
-        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-800 tracking-tight">
             {title}
@@ -51,7 +47,6 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           </button>
         </div>
 
-        {/* Content */}
         <div className="text-gray-600 leading-relaxed">{children}</div>
       </div>
     </div>
