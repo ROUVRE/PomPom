@@ -47,7 +47,9 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           </button>
         </div>
 
-        <div className="text-gray-600 leading-relaxed">{children}</div>
+        <div className="text-gray-600 leading-relaxed max-h-[70vh] overflow-y-auto">
+          {children}
+        </div>
       </div>
     </div>
   );

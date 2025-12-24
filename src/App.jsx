@@ -235,7 +235,7 @@ function App() {
           <div className="space-y-6">
             <div className="border-b pb-4">
               <h3 className="text-lg font-semibold mb-2 text-slate-800">
-                What is the Pomodoro Technique?
+                What is Pomodoro Technique?
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed mb-2">
                 <strong>The Pomodoro Technique</strong> is a time-management
@@ -283,11 +283,14 @@ function App() {
                   03
                 </div>
                 <p>
-                  After 4 pomodoros, enjoy a 15-minute{" "}
+                  After 4 pomodoros, enjoy a 15-minutes{" "}
                   <span className="text-indigo-600">LONG BREAK</span>. Rinse and
                   repeat.
                 </p>
               </div>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Note: You can set your own durations in the Settings menu.
+              </p>
             </div>
           </div>
         </Modal>
