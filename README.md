@@ -1,5 +1,5 @@
-# PomPom - A Simple Pomodoro Timer to Help You Study
-# DEMO SOON
+# ⏱️ [CLICK ME FOR A DEMO](https://rouvre.github.io/PomPom/) ⏱️
+# 🍅 PomPom - A Simple Pomodoro Timer to Help You Study
 
 Pomodoro Technique is a time-management method developed by Francesco Cirillo. It uses a timer to break work into focused 25-minute intervals (each called a "Pomodoro"), separated by short 5-minute breaks, with longer 15-30 minute breaks after every four pomodoros.
 
@@ -7,10 +7,17 @@ This simple Pomodoro Timer was made to help you focus, manage time, and avoid bu
 
 Made using React 19.
 
-## How to Install
+## How to Install 🛠️
 
-1. Clone this repository
+1. Clone this GitHub repository
+
 2. Open the directory in your chosen code editor
-3. Run 'npm install'
-4. Run 'npm run dev'
-5. Access via Localhost link
+   
+3. Install packages via terminal
+   ```
+   npm install
+   ```
+4. Run development server
+   ```
+   npm run dev
+   ```
