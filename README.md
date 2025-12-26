@@ -7,6 +7,8 @@ This simple Pomodoro Timer was made to help you focus, manage time, and avoid bu
 
 Made using React 19.
 
+**WARNING:** Currently it is bugged on mobile. Working for a fix
+
 ## How to Install 🛠️
 
 1. Clone this GitHub repository
